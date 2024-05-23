@@ -25,4 +25,5 @@ usersRouter.put(
   updateUser,
   sendUserUpdated
 );
+usersRouter.delete("/users/:id", deleteUser, sendUserDeleted);
 module.exports = usersRouter;
