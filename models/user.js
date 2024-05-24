@@ -8,11 +8,24 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
     required: true,
   },
 });
-const user = mongoose.model("game", userSchema);
-module.exports = game;
+userSchema.statics.findUserByCredentials = function (email, password) {
+  return this.findone({ email }).then((user) => {
+    if (!user) {
+      return Promise.reject(new Error("Неправильные почта или пароль"));
+    }
+    return bcrypt.compare(password, user.password).then((matched) => {
+      if (!matched) {
+        return Promise.reject(new Error("Неправильные почта или пароль"));
+      }
+      return user;
+    });
+  });
+};
+module.exports = mongoose.model("game", userSchema);

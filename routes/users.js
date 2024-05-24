@@ -8,6 +8,7 @@ const {
   createUser,
   updateUser,
 } = require(" .. /middlewares/users");
+const { hashPassword } = require("../middlewars/users");
 
 const usersRouter = require("express").Router();
 
@@ -17,7 +18,8 @@ usersRouter.post(
   findAllUsers,
   createUser,
   sendUserCreated,
-  checkEmptyNameAndEmail
+  checkEmptyNameAndEmail,
+  hashPassword
 );
 usersRouter.put(
   "/users/:id",
